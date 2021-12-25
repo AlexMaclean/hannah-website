@@ -1,89 +1,52 @@
-const butterflySpeed = 1;
-const butterflyMaxRotation = 0.1;
-const butterflyMaxDRotation = 0.01;
-const butterflyDensity = 1 / 50000;
-const butterflySpriteSize = 50;
-const butterflyNumSprites = 6;
+const scene = new THREE.Scene();
 
-let butterflySprite = new Image();
-butterflySprite.src = './butterfly.png';
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
-const canvas = document.querySelector('canvas');
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-const ctx = canvas.getContext('2d');
+let cube;
 
-const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerHeight;
+let loader = new THREE.TextureLoader();
+loader.setCrossOrigin("");
 
+console.log("A")
 
-class Butterfly {
-    constructor(x, y, rotation) {
-        this.x = x;
-        this.y = y;
+const image = new Image();
+image.src = "metal003.png"
+const texture = new THREE.Texture(image);
+// loader.load('metal003.png', function (texture) {
+// console.log("C")
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(2, 2);
 
-        this.rotation = rotation;
-        this.dRotation = 0
+  let geometry = new THREE.BoxGeometry(2.4, 2.4, 2.4);
+  let material = new THREE.MeshLambertMaterial( { map: texture, shading: THREE.FlatShading } );
+  cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
 
-        this.sprite = Math.floor(Math.random() * butterflyNumSprites);
-    }
-
-    draw() {
-        // ctx.beginPath();
-        // // ctx.fillStyle = this.color;
-        // ctx.moveTo(this.x, this.y);
-        // ctx.lineTo(this.x +  Math.sin(this.rotation) * 5, this.y + Math.cos(this.rotation) * 5);
-        // //ctx.lineTo(this.x - 10, this.y + 10);
-        // ctx.stroke();
-        ctx.save();
-        ctx.translate(this.x, this.y); // change origin
-        ctx.rotate(- this.rotation + Math.PI); // rotate
-        ctx.drawImage(butterflySprite,
-            Math.floor(this.sprite) * 200, 0, 200, 200,
-            -butterflySpriteSize,-butterflySpriteSize,butterflySpriteSize,butterflySpriteSize);
-        ctx.restore()
-
-    }
-
-    update() {
-        this.rotation += this.dRotation;
-        this.x += Math.sin(this.rotation) * butterflySpeed;
-        this.y += Math.cos(this.rotation) * butterflySpeed;
-
-        this.dRotation += Math.random() * butterflyMaxDRotation - butterflyMaxDRotation / 2;
-        if (this.dRotation > butterflyMaxRotation || this.dRotation < -butterflyMaxRotation) {
-            this.dRotation  = this.dRotation * -0.5;
-        }
-
-        this.sprite = (this.sprite + 0.2) % butterflyNumSprites;
-    }
-}
+  draw();
+// }, undefined, function (err) {
+//     console.error(err);
+// });
 
 
-const numButterflies = Math.floor(width * height * butterflyDensity);
-const butterflies = Array(numButterflies);
-for (let i = 0; i < numButterflies; i++) {
-    const x = Math.random() * width;
-    const y = Math.random() * height;
-    const rotation = Math.random() * Math.PI * 2;
+let light = new THREE.AmbientLight('rgb(255, 255, 255)'); // soft white light
+scene.add(light);
 
-    const color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
-    butterflies[i] = (new Butterfly(x, y, rotation, color));
-}
+let spotLight = new THREE.SpotLight('rgb(255, 255, 255)');
+spotLight.position.set( 100, 1000, 1000 );
+spotLight.castShadow = true;
+scene.add(spotLight);
 
+function draw() {
+    console.log("B")
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
 
-
-function loop() {
-    // ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-    // ctx.fillRect(0, 0, width, height);
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < butterflies.length; i++) {
-        butterflies[i].draw();
-        butterflies[i].update();
-    }
-
-    requestAnimationFrame(loop);
-}
-
-loop();
-
+    requestAnimationFrame(draw);
+  }
