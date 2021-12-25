@@ -12,13 +12,9 @@ let cube;
 let loader = new THREE.TextureLoader();
 loader.setCrossOrigin("");
 
-console.log("A")
 
-const image = new Image();
-image.src = "metal003.png"
-const texture = new THREE.Texture(image);
-// loader.load('metal003.png', function (texture) {
-// console.log("C")
+loader.load('metal003.png', function (texture) {
+console.log("C")
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2, 2);
@@ -29,9 +25,9 @@ const texture = new THREE.Texture(image);
   scene.add(cube);
 
   draw();
-// }, undefined, function (err) {
-//     console.error(err);
-// });
+}, undefined, function (err) {
+    console.error(err);
+});
 
 
 let light = new THREE.AmbientLight('rgb(255, 255, 255)'); // soft white light
@@ -49,4 +45,4 @@ function draw() {
     renderer.render(scene, camera);
 
     requestAnimationFrame(draw);
-  }
+}
