@@ -1,0 +1,15 @@
+h1 {
+    text-transform: uppercase;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+body {
+    overflow: hidden;
+    background-color: aquamarine;
+}
