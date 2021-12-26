@@ -82,7 +82,6 @@ class Butterfly {
     this.rightWing.rotation.y = -rotation;
 
     this.butterfly.rotation.z += 0.01;
-    this.butterfly.rotation.x += 0.01;
 
     this.frame++;
   }
@@ -114,7 +113,7 @@ function addLights(scene) {
   const light = new THREE.HemisphereLight(0xb1e1ff, 0xb97a20, 1);
   scene.add(light);
 
-  const spotLight = new THREE.SpotLight("rgb(255, 255, 0)");
+  const spotLight = new THREE.SpotLight(0xffff00, 1);
   spotLight.position.set(100, 1000, 1000);
   spotLight.castShadow = true;
   scene.add(spotLight);
@@ -122,8 +121,8 @@ function addLights(scene) {
 
 function getMaterials(texture) {
   textureCopy = texture.clone();
-  textureCopy.offset.set(1, 0);
-  textureCopy.wrapS = THREE.MirroredRepeatWrapping;
+//   textureCopy.offset.set(1, 0);
+//   textureCopy.wrapS = THREE.MirroredRepeatWrapping;
 
   return {
     left: material(texture),
