@@ -18,24 +18,20 @@ let loader = new THREE.TextureLoader();
 loader.setCrossOrigin("");
 
 loader.load(
-  "metal003.png",
+  "wing.png",
   function (texture) {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(2, 2);
-
-    const material = new THREE.MeshLambertMaterial({
-      map: texture,
-      flatShading: THREE.FlatShading,
-    });
-    setup(material);
+    setup(getMaterials(texture));
   },
   undefined,
   function () {
-    const material = new THREE.MeshLambertMaterial({
-      color: 0x888888,
+    setup({
+      left: new THREE.MeshLambertMaterial({
+        color: 0x888800,
+      }),
+      right: new THREE.MeshLambertMaterial({
+        color: 0x880088,
+      }),
     });
-    setup(material);
   }
 );
 
@@ -56,29 +52,28 @@ const ComputedButterflyConstants = {
 };
 
 class Butterfly {
-  constructor(scene, material, size) {
-    this.scene = scene;
-    this.buildObject(material, size);
+  constructor(scene, materials, size) {
+    this.buildObject(scene, materials, size);
     this.frame = 0;
   }
 
-  buildObject(material, size) {
+  buildObject(scene, materials, size) {
     this.butterfly = new THREE.Object3D();
     this.leftWing = new THREE.Object3D();
     this.rightWing = new THREE.Object3D();
 
     const wingGeometry = new THREE.PlaneGeometry(size, size);
-    const leftWingMesh = new THREE.Mesh(wingGeometry, material);
+    const leftWingMesh = new THREE.Mesh(wingGeometry, materials.left);
     leftWingMesh.position.x = -size / 2;
     this.leftWing.add(leftWingMesh);
 
-    const rightWingMesh = new THREE.Mesh(wingGeometry, material);
+    const rightWingMesh = new THREE.Mesh(wingGeometry, materials.right);
     rightWingMesh.position.x = size / 2;
     this.rightWing.add(rightWingMesh);
 
     this.butterfly.add(this.leftWing);
     this.butterfly.add(this.rightWing);
-    this.scene.add(this.butterfly);
+    scene.add(this.butterfly);
   }
 
   animate() {
@@ -109,8 +104,6 @@ function setup(material) {
 }
 
 function renderLoop() {
-  //   cube.rotation.x += 0.01;
-  //   cube.rotation.y += 0.01;
   butterfly.animate();
   renderer.render(scene, camera);
 
@@ -118,11 +111,29 @@ function renderLoop() {
 }
 
 function addLights(scene) {
-  const light = new THREE.AmbientLight("rgb(0, 0, 255)");
+  const light = new THREE.HemisphereLight(0xb1e1ff, 0xb97a20, 1);
   scene.add(light);
 
   const spotLight = new THREE.SpotLight("rgb(255, 255, 0)");
   spotLight.position.set(100, 1000, 1000);
   spotLight.castShadow = true;
   scene.add(spotLight);
+}
+
+function getMaterials(texture) {
+  textureCopy = texture.clone();
+  textureCopy.offset.set(1, 0);
+  textureCopy.wrapS = THREE.MirroredRepeatWrapping;
+
+  return {
+    left: material(texture),
+    right: material(textureCopy),
+  };
+}
+
+function material(texture) {
+  return new THREE.MeshLambertMaterial({
+    map: texture,
+    flatShading: THREE.FlatShading,
+  });
 }
