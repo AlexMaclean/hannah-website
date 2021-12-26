@@ -8,7 +8,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = 5;
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ alpha: true, antiailias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -81,7 +81,8 @@ class Butterfly {
     this.leftWing.rotation.y = rotation;
     this.rightWing.rotation.y = -rotation;
 
-    this.butterfly.rotation.z += 0.01;
+    this.butterfly.rotation.z += 0.03;
+    this.butterfly.translateY(0.03);
 
     this.frame++;
   }
