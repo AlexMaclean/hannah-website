@@ -120,9 +120,10 @@ function addLights(scene) {
 }
 
 function getMaterials(texture) {
-  textureCopy = texture.clone();
-//   textureCopy.offset.set(1, 0);
-//   textureCopy.wrapS = THREE.MirroredRepeatWrapping;
+  const textureCopy = texture.clone();
+  textureCopy.needsUpdate = true;
+  textureCopy.offset.set(1, 0);
+  textureCopy.wrapS = THREE.MirroredRepeatWrapping;
 
   return {
     left: material(texture),
@@ -133,6 +134,6 @@ function getMaterials(texture) {
 function material(texture) {
   return new THREE.MeshLambertMaterial({
     map: texture,
-    flatShading: THREE.FlatShading,
+    transparent: true
   });
 }
