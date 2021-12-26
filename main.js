@@ -18,7 +18,7 @@ let loader = new THREE.TextureLoader();
 loader.setCrossOrigin("");
 
 loader.load(
-  "wing.png",
+  "img/wing1.png",
   function (texture) {
     setup(getMaterials(texture));
   },
