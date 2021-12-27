@@ -38,7 +38,8 @@ loader.load(
 const ButterflyConstants = {
   maxWingRotation: Math.PI / 3,
   minWingRotation: -Math.PI / 6,
-  wingFlapSpeed: 30,
+  wingFlapSpeed: 20,
+  speed: 0.04,
 };
 
 const ComputedButterflyConstants = {
@@ -55,25 +56,33 @@ class Butterfly {
   constructor(scene, materials, size) {
     this.buildObject(scene, materials, size);
     this.frame = 0;
+
+    this.outerObject.position.x = -3;
+    // this.butterfly.rotation.z = Math.PI;
+     this.innerObject.rotation.y = 0;
+     this.innerObject.rotation.x = 0;
+   // this.butterfly.rotation.y = 0.3;
   }
 
   buildObject(scene, materials, size) {
-    this.butterfly = new THREE.Object3D();
-    this.leftWing = new THREE.Object3D();
-    this.rightWing = new THREE.Object3D();
-
     const wingGeometry = new THREE.PlaneGeometry(size, size);
+
     const leftWingMesh = new THREE.Mesh(wingGeometry, materials.left);
     leftWingMesh.position.x = -size / 2;
+    this.leftWing = new THREE.Object3D();
     this.leftWing.add(leftWingMesh);
 
     const rightWingMesh = new THREE.Mesh(wingGeometry, materials.right);
     rightWingMesh.position.x = size / 2;
+    this.rightWing = new THREE.Object3D();
     this.rightWing.add(rightWingMesh);
 
-    this.butterfly.add(this.leftWing);
-    this.butterfly.add(this.rightWing);
-    scene.add(this.butterfly);
+    this.innerObject = new THREE.Object3D();
+    this.outerObject = new THREE.Object3D();
+    this.innerObject.add(this.leftWing);
+    this.innerObject.add(this.rightWing);
+    this.outerObject.add(this.innerObject)
+    scene.add(this.outerObject);
   }
 
   animate() {
@@ -81,8 +90,20 @@ class Butterfly {
     this.leftWing.rotation.y = rotation;
     this.rightWing.rotation.y = -rotation;
 
-    this.butterfly.rotation.z += 0.03;
-    this.butterfly.translateY(0.03);
+    this.innerObject.rotation.y += Math.sin(this.frame * 0.1) * 0.02;
+    this.innerObject.rotation.y += Math.sin(this.frame * 0.03) * 0.002;
+
+    this.innerObject.rotation.x = Math.sin(this.frame * 0.1) * 0.1;
+
+    this.outerObject.rotation.z += this.innerObject.rotation.y / 10;
+
+    const angle = this.innerObject.rotation.x
+    this.outerObject.translateY(Math.cos(angle) * ButterflyConstants.speed);
+    this.outerObject.translateZ(Math.sin(angle) * ButterflyConstants.speed);
+
+
+    console.log(this.outerObject.position);
+
 
     this.frame++;
   }
@@ -135,6 +156,7 @@ function getMaterials(texture) {
 function material(texture) {
   return new THREE.MeshLambertMaterial({
     map: texture,
-    transparent: true
+    transparent: true,
+    side: THREE.DoubleSide,
   });
 }

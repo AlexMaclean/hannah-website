@@ -8,6 +8,7 @@ canvas {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: -1;
 }
 
 html {
@@ -51,12 +52,13 @@ p {
     text-transform: uppercase;
     font-family: 'Montserrat', sans-serif;
     fill: white;
-
 }
 
 svg {
     margin: 1rem;
     width: calc( 100% - 2rem );
+    z-index: -2;
+    position: relative;
   }
 
   @media (max-width: 800px) {
