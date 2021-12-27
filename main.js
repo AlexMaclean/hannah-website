@@ -7,9 +7,9 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 camera.position.z = 5;
 
-const renderer = new THREE.WebGLRenderer({ alpha: true, antiailias: true });
+const canvas = document.querySelector('#canvas');
+const renderer = new THREE.WebGLRenderer({ alpha: true, antiailias: true, canvas: canvas });
 renderer.setSize(width, height);
-document.body.appendChild(renderer.domElement);
 
 addLights(scene);
 
@@ -117,6 +117,10 @@ function renderLoop() {
     butterflies[i].animate();
   }
   renderer.render(scene, camera);
+
+  const canvas = renderer.domElement;
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera.updateProjectionMatrix();
 
   requestAnimationFrame(renderLoop);
 }
