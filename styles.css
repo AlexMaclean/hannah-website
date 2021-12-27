@@ -42,8 +42,12 @@ body {
   overflow-y: auto;
 }
 
-.content > div {
+.text {
   padding: 3rem;
+}
+
+.text > *:first-child {
+  margin-top: 0;
 }
 
 p {
