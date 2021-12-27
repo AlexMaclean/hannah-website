@@ -1,45 +1,33 @@
+const frame = document.getElementById("frame");
+const width = frame.offsetWidth;
+const height = frame.offsetHeight;
+
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 camera.position.z = 5;
 
 const renderer = new THREE.WebGLRenderer({ alpha: true, antiailias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(width, height);
 document.body.appendChild(renderer.domElement);
 
 addLights(scene);
 
-let loader = new THREE.TextureLoader();
+const loadManager = new THREE.LoadingManager();
+const loader = new THREE.TextureLoader(loadManager);
 loader.setCrossOrigin("");
 
-loader.load(
-  "img/wing1.png",
-  function (texture) {
-    setup(getMaterials(texture));
-  },
-  undefined,
-  function () {
-    setup({
-      left: new THREE.MeshLambertMaterial({
-        color: 0x888800,
-      }),
-      right: new THREE.MeshLambertMaterial({
-        color: 0x880088,
-      }),
-    });
-  }
+loadManager.onLoad = setup;
+
+const wingMaterials = ["img/wing1.png", "img/wing2.png", "img/wing3.png"].map(
+  (path) => loader.load(path)
 );
 
 const ButterflyConstants = {
   maxWingRotation: Math.PI / 3,
   minWingRotation: -Math.PI / 6,
   wingFlapSpeed: 20,
-  speed: 0.04,
+  speed: 0.06,
 };
 
 const ComputedButterflyConstants = {
@@ -55,13 +43,9 @@ const ComputedButterflyConstants = {
 class Butterfly {
   constructor(scene, materials, size) {
     this.buildObject(scene, materials, size);
-    this.frame = 0;
+    this.frame = Math.floor(Math.random() * 1000);
 
-    this.outerObject.position.x = -3;
-    // this.butterfly.rotation.z = Math.PI;
-     this.innerObject.rotation.y = 0;
-     this.innerObject.rotation.x = 0;
-   // this.butterfly.rotation.y = 0.3;
+    this.outerObject.rotation.z = Math.random() * Math.PI * 2;
   }
 
   buildObject(scene, materials, size) {
@@ -81,7 +65,7 @@ class Butterfly {
     this.outerObject = new THREE.Object3D();
     this.innerObject.add(this.leftWing);
     this.innerObject.add(this.rightWing);
-    this.outerObject.add(this.innerObject)
+    this.outerObject.add(this.innerObject);
     scene.add(this.outerObject);
   }
 
@@ -90,22 +74,23 @@ class Butterfly {
     this.leftWing.rotation.y = rotation;
     this.rightWing.rotation.y = -rotation;
 
-    this.innerObject.rotation.y += Math.sin(this.frame * 0.1) * 0.02;
-    this.innerObject.rotation.y += Math.sin(this.frame * 0.03) * 0.002;
+    this.innerObject.rotation.y =
+      Math.sin(this.frame * 0.02) * 0.3 * (Math.random() + 1);
+    //this.innerObject.rotation.y += Math.sin(this.frame * 0.03) * 0.002 * Math.random();
 
-    this.innerObject.rotation.x = Math.sin(this.frame * 0.1) * 0.1;
+    //this.innerObject.rotation.x = Math.sin(this.frame * 0.1) * 0.1;
 
-    this.outerObject.rotation.z += this.innerObject.rotation.y / 10;
+    this.outerObject.rotation.z += this.innerObject.rotation.y / 8;
 
-    const angle = this.innerObject.rotation.x
+    const angle = this.innerObject.rotation.x;
     this.outerObject.translateY(Math.cos(angle) * ButterflyConstants.speed);
     this.outerObject.translateZ(Math.sin(angle) * ButterflyConstants.speed);
 
-
-    console.log(this.outerObject.position);
-
+    this.outerObject.position.x *= 0.99;
+    this.outerObject.position.y *= 0.99;
 
     this.frame++;
+ //   console.log(this.frame);
   }
 
   getRotation() {
@@ -117,15 +102,21 @@ class Butterfly {
   }
 }
 
-let butterfly;
+const butterflies = [];
 
-function setup(material) {
-  butterfly = new Butterfly(scene, material, 1);
+function setup() {
+    const materials = wingMaterials.map(getMaterials);
+    for (let i = 0; i < 4; i++) {
+        console.log('B')
+        butterflies.push(new Butterfly(scene, materials[Math.floor(Math.random() * wingMaterials.length)], 1));
+    }
   renderLoop();
 }
 
 function renderLoop() {
-  butterfly.animate();
+  for (let i = 0; i < butterflies.length; i++) {
+    butterflies[i].animate();
+  }
   renderer.render(scene, camera);
 
   requestAnimationFrame(renderLoop);
