@@ -41,11 +41,13 @@ const ComputedButterflyConstants = {
 };
 
 class Butterfly {
-  constructor(scene, materials, size) {
+  constructor(scene, materials, location, size) {
     this.buildObject(scene, materials, size);
     this.frame = Math.floor(Math.random() * 1000);
 
     this.outerObject.rotation.z = Math.random() * Math.PI * 2;
+    this.outerObject.position.set(...location);
+    console.log(this.outerObject.position);
   }
 
   buildObject(scene, materials, size) {
@@ -76,9 +78,6 @@ class Butterfly {
 
     this.innerObject.rotation.y =
       Math.sin(this.frame * 0.02) * 0.3 * (Math.random() + 1);
-    //this.innerObject.rotation.y += Math.sin(this.frame * 0.03) * 0.002 * Math.random();
-
-    //this.innerObject.rotation.x = Math.sin(this.frame * 0.1) * 0.1;
 
     this.outerObject.rotation.z += this.innerObject.rotation.y / 8;
 
@@ -90,7 +89,6 @@ class Butterfly {
     this.outerObject.position.y *= 0.99;
 
     this.frame++;
- //   console.log(this.frame);
   }
 
   getRotation() {
@@ -106,9 +104,10 @@ const butterflies = [];
 
 function setup() {
     const materials = wingMaterials.map(getMaterials);
-    for (let i = 0; i < 4; i++) {
-        console.log('B')
-        butterflies.push(new Butterfly(scene, materials[Math.floor(Math.random() * wingMaterials.length)], 1));
+    for (let i = 0; i < 5; i++) {
+        const material = materials[Math.floor(Math.random() * wingMaterials.length)]
+        const location = new THREE.Vector3( 0, 0, i*0.8 - 1);
+        butterflies.push(new Butterfly(scene, material, location, 1));
     }
   renderLoop();
 }
