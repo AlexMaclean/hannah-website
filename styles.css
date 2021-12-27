@@ -71,6 +71,10 @@ svg {
   .container {
     flex-direction: column;
   }
+
+  .content {
+    overflow-y: visible;
+  }
 }
 
 #canvas {
