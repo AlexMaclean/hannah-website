@@ -19,7 +19,7 @@ loader.setCrossOrigin("");
 
 loadManager.onLoad = setup;
 
-const wingMaterials = ["img/wing1.png", "img/wing2.png", "img/wing3.png"].map(
+const wingMaterials = ["assets/img/wing1.png", "assets/img/wing2.png", "assets/img/wing3.png"].map(
   (path) => loader.load(path)
 );
 
