@@ -1,11 +1,22 @@
 ---
 ---
 
-h1,
-h2 {
+h2,
+.title {
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
   line-height: 0.9;
+}
+
+.title {
+  fill: white;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 canvas {
@@ -55,12 +66,6 @@ body {
 
 p {
   text-align: justify;
-}
-
-.title {
-  text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
-  fill: white;
 }
 
 svg {

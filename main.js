@@ -7,8 +7,12 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 camera.position.z = 5;
 
-const canvas = document.querySelector('#canvas');
-const renderer = new THREE.WebGLRenderer({ alpha: true, antiailias: true, canvas: canvas });
+const canvas = document.querySelector("#canvas");
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  antiailias: true,
+  canvas: canvas,
+});
 renderer.setSize(width, height);
 
 addLights(scene);
@@ -19,9 +23,7 @@ loader.setCrossOrigin("");
 
 loadManager.onLoad = setup;
 
-const wingMaterials = ["assets/img/wing1.png", "assets/img/wing2.png", "assets/img/wing3.png"].map(
-  (path) => loader.load(path)
-);
+const wingMaterials = ["assets/img/wing1.png"].map((path) => loader.load(path));
 
 const ButterflyConstants = {
   maxWingRotation: Math.PI / 3,
@@ -103,12 +105,13 @@ class Butterfly {
 const butterflies = [];
 
 function setup() {
-    const materials = wingMaterials.map(getMaterials);
-    for (let i = 0; i < 5; i++) {
-        const material = materials[Math.floor(Math.random() * wingMaterials.length)]
-        const location = new THREE.Vector3( 0, 0, i*0.8 - 1);
-        butterflies.push(new Butterfly(scene, material, location, 1));
-    }
+  const materials = wingMaterials.map(getMaterials);
+  for (let i = 0; i < 5; i++) {
+    const material =
+      materials[Math.floor(Math.random() * wingMaterials.length)];
+    const location = new THREE.Vector3(0, 0, i * 0.8 - 1);
+    butterflies.push(new Butterfly(scene, material, location, 1));
+  }
   renderLoop();
 }
 
