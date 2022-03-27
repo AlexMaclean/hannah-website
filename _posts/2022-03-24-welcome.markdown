@@ -1,0 +1,6 @@
+---
+title:  "Welcome the new blog"
+date:   2022-03-24 20:47:02 -0700
+---
+
+This post is a test (by Alex). I'll teach you how to post here soon.

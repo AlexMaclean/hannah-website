@@ -1,0 +1,16 @@
+---
+layout: page
+title: Posts
+---
+
+{% for post in site.posts %}
+<div class="post">
+  <h2>{{ post.title }}</h2>
+  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+  <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+    {{ post.date | date: date_format }}
+  </time>
+  <div class="content">{{ post.content | markdown }}</div>
+  <hr>
+</div>
+{% endfor %}
