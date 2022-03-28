@@ -2,7 +2,7 @@
 layout: home
 ---
 
-## Bio
+## About Me
 
 My name is Hannah Young and I am currently a senior at Cal Poly SLO,
 majoring in Business Administration, with a concentration in marketing
