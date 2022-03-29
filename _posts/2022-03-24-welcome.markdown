@@ -1,6 +1,9 @@
 ---
 title:  "Welcome the new blog"
-date:   2022-03-24 20:47:02 -0700
 ---
 
-This post is a test (by Alex). I'll teach you how to post here soon.
+This is my new blog. I am going to update this page and share:
+
+- My experience learning how to program (planning on taking Harvards `CS50` class online)
+- What I do with all my free time before starting work in __August__
+- How post-grad life evolves (eventually)
