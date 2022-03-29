@@ -2,4 +2,4 @@
 title:  "Alex was here :)"
 ---
 
-Welcome from Alex
+Welcome from <span style="color:navy"> Alex </span>
