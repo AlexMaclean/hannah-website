@@ -117,7 +117,7 @@ svg {
 .han-polaroid {
   filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
   max-height: 22rem;
-  margin: 1rem;
+  margin: 4rem;
 }
 
 
@@ -137,6 +137,10 @@ svg {
 
   .text {
     padding: 2rem;
+  }
+
+  .han-polaroid {
+    max-height: 15rem;
   }
 }
 
