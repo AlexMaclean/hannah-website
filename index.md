@@ -13,14 +13,14 @@ passionate about data analytics and bridging the gap between
 tech and business. In my free time, I love to walk, cycle,
 practice yoga, and backpack.
 
-Throughout my late high school and college years I have interned in
+Throughout high school and college I have interned in
 many different business roles. First, I worked for an accounting
 company doing search engine optimization and running google ads-
 ultimately doubling website traffic. I worked for a startup called
-Terrain Data next, where I ran an email marketing campaign and learned
-the “tech” language. Furthering my marketing experience, I worked for
+Terrain Data next, where I ran an email marketing campaign.
+Furthering my marketing experience, I worked for
 another startup City and Shiplap, where I ran point on social media-
-this included creating ad campaigns and data analysis and
+this included runnning ad campaigns and data analysis/
 visualization which ultimately led to a 23k follower growth in just
 under a year. Finally, I interned for Amazon, where I worked with
 large datasets, wrote SQL queries and used advance excel to solve one
