@@ -4,13 +4,11 @@ layout: home
 
 ## About Me
 
-My name is Hannah Young and I am currently a senior at Cal Poly SLO,
-majoring in Business Administration, with a concentration in marketing
-and a minor in statistics. I have moved 25 times in my 22 years of
+My name is Hannah Young and I am currently a financial analyst at Amazon, after graduating from Cal Poly with
+a major in Business Administration and a minor in statistics. I have moved 25 times in my 22 years of
 life, which has given me the opportunity to learn communication skills
 across different cultures, along with the ability to adapt. I am 
-passionate about data analytics and bridging the gap between
-tech and business. In my free time, I love to walk, cycle,
+passionate about data analytics and product management. In my free time, I love to walk, cycle,
 practice yoga, and backpack.
 
 Throughout high school and college I have interned in
